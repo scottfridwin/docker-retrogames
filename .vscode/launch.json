@@ -1,0 +1,50 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Game Server (ESM)",
+      "program": "${workspaceFolder}/server.js",
+      "env": {
+        "GAMES_DIR": "${workspaceFolder}/mnt/games",
+        "USERDATA_DIR": "${workspaceFolder}/mnt/userdata",
+        "MOCK_LOGIN": "true",
+        "LOG_LEVEL": "TRACE"
+      },
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch with --watch (ESM)",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["--watch", "--inspect", "${workspaceFolder}/server.js"],
+      "env": {
+        "GAMES_DIR": "${workspaceFolder}/mnt/games",
+        "USERDATA_DIR": "${workspaceFolder}/mnt/userdata",
+        "MOCK_LOGIN": "true",
+        "LOG_LEVEL": "DEBUG"
+      },
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"]
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Node",
+      "port": 9229,
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": ["${workspaceFolder}/**", "!**/node_modules/**"]
+    }
+  ]
+}

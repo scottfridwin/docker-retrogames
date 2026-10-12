@@ -1,0 +1,14 @@
+{
+  "displayName": "FridWin Games Demo",
+  "emulation": "dos",
+  "publisher": "FridWin",
+  "releaseYear": 2026,
+  "ageLow": 3,
+  "tags": ["demo"],
+  "descriptions": [
+    {
+      "header": "Sample game for development",
+      "body": "A tiny DOS program built from demo-game/demo.asm. It counts how many times it has been played, so you can see saved progress work."
+    }
+  ]
+}

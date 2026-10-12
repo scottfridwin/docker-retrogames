@@ -1,0 +1,92 @@
+name: Image vulnerability scan
+
+on:
+  # Scan each newly published :main image, and the released :latest image weekly
+  workflow_run:
+    workflows: ["Build, Test & Publish"]
+    types: [completed]
+    branches: [main]
+  schedule:
+    - cron: "23 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/retrogames
+  # renovate: datasource=docker depName=aquasec/trivy
+  TRIVY_IMAGE: aquasec/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa
+
+jobs:
+  scan:
+    name: Trivy
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      security-events: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      # Scheduled runs have no repository in their event payload, so ask the API
+      - name: Repository visibility
+        id: repo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: echo "private=$(gh api "repos/${GITHUB_REPOSITORY}" --jq .private)" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GHCR
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Scan image
+        id: scan
+        env:
+          TAG: ${{ github.event_name == 'workflow_run' && 'main' || 'latest' }}
+          PRIVATE: ${{ steps.repo.outputs.private }}
+        run: |
+          docker pull --quiet "${IMAGE}:${TAG}"
+          trivy() {
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:/out" \
+              -v "$RUNNER_TEMP/trivy:/root/.cache/trivy" "$TRIVY_IMAGE" \
+              image --severity "HIGH,CRITICAL" --ignore-unfixed "$@"
+          }
+          trivy --format sarif --output /out/trivy.sarif "${IMAGE}:${TAG}"
+          # Report-only (findings go to code scanning) unless code scanning is unavailable
+          if [[ "$PRIVATE" == "true" ]]; then
+            trivy --skip-db-update --exit-code 1 "${IMAGE}:${TAG}"
+          else
+            trivy --skip-db-update "${IMAGE}:${TAG}"
+          fi
+
+      # Code scanning is not available for private repositories on the free plan
+      - name: Upload results to code scanning
+        if: ${{ !cancelled() && steps.repo.outputs.private == 'false' }}
+        uses: github/codeql-action/upload-sarif@24c54180a607b1449ed407dd24f251e4e9147c8d # v4
+        with:
+          sarif_file: trivy.sarif
+          category: trivy-image
+
+      - name: Open or update vulnerability issue
+        if: failure() && steps.scan.outcome == 'failure' && steps.repo.outputs.private == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TITLE="Image has fixable HIGH/CRITICAL vulnerabilities"
+          EXISTING=$(gh issue list --state open --search "in:title \"${TITLE}\"" --json number --jq '.[0].number')
+          if [[ -n "$EXISTING" ]]; then
+            gh issue comment "$EXISTING" --body "Run: ${RUN_URL}"
+          else
+            gh issue create --title "$TITLE" --body "Run: ${RUN_URL}" --assignee "$OWNER"
+          fi

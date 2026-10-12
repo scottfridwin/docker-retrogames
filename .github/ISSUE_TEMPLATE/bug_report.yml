@@ -1,0 +1,28 @@
+name: Bug report
+description: Something does not work as expected
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Image version
+      placeholder: ghcr.io/scottfridwin/retrogames:1.2.0
+    validations:
+      required: true
+  - type: input
+    id: game
+    attributes:
+      label: Game and browser
+      placeholder: oregon_trail, Firefox 140 on Windows
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Container log or browser console
+      render: text

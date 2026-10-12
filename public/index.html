@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FridWin Games</title>
+    <link rel="icon" href="/fridwin-games-icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/vendor/fonts/ubuntu/300.css" />
+    <link rel="stylesheet" href="/vendor/fonts/ubuntu/400.css" />
+    <link rel="stylesheet" href="/vendor/fonts/ubuntu/700.css" />
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="/js-dos/js-dos.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js-dos/js-dos.js"></script>
+    <script type="module" src="/js/index.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">FridWin Games</a>
+        <span id="nav-user" class="navbar-text text-light small d-none">
+          <i class="fa-solid fa-user me-1"></i>
+          <span id="nav-username"></span>
+          <span id="nav-email" class="text-muted"></span>
+        </span>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div id="load-error" class="alert alert-danger m-3 d-none" role="alert"></div>
+      <div class="row" id="gameRowId"></div>
+    </div>
+
+    <div class="modal fade" id="gameModal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header justify-content-center">
+            <h5 class="modal-title" id="modal-title"></h5>
+          </div>
+          <div class="modal-body">
+            <div id="modal-gameinfo" class="container-fluid hide-on-play">
+              <div class="row">
+                <img id="modal-gameinfo-img" class="col-md-6" src="" alt="" />
+                <div class="col-md-6">
+                  <p class="h5"><strong>Ages:</strong> <span id="modal-gameinfo-age-text"></span></p>
+                  <p class="h5"><strong>Tags:</strong> <span id="modal-gameinfo-tags-text"></span></p>
+                  <p class="h5 fst-italic">
+                    <strong>Publisher:</strong> <span id="modal-gameinfo-publisher-text"></span>
+                  </p>
+                </div>
+                <div id="modal-gameinfo-descriptions" class="col-12"></div>
+                <div id="modal-gameinfo-saveddata" class="col-6 mt-4 d-none">
+                  <p class="h6">Save data:</p>
+                  <div id="modal-gameinfo-saveddata-size"></div>
+                  <div id="modal-gameinfo-saveddata-date"></div>
+                  <button id="modal-gameinfo-saveddata-download" class="btn btn-info" type="button">
+                    <i class="fa-solid fa-download"></i> Download
+                  </button>
+                  <button id="modal-gameinfo-saveddata-delete" class="btn btn-danger" type="button">
+                    <i class="fa-solid fa-trash"></i> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="jsdos"></div>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-success btn-lg hide-on-play" id="modal-play">Play</button>
+            <button type="button" class="btn btn-danger btn-lg" id="modal-close" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

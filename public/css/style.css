@@ -1,0 +1,162 @@
+/* General */
+body {
+  background-color: #6d8299;
+  font-family: "Ubuntu", sans-serif;
+  color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
+.navbar {
+  padding: 0.75rem 1.5rem;
+  background-color: #316b83;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #fff !important;
+}
+
+.nav-item {
+  padding: 0 0.75rem;
+}
+
+.nav-link {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75) !important;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #fff !important;
+}
+
+/* Game Grid */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+/* Game Tile */
+.game-tile {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+.game-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.game-screenshot {
+  width: 100%;
+  border-radius: 10px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+.game-title {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Modal */
+.modal-xl {
+  height: 90%;
+  width: 95%;
+  max-height: 90%;
+  max-width: 95%;
+}
+
+.modal-content {
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  border: none;
+}
+
+.modal-header {
+  background-color: #316b83;
+  border: none;
+  align-items: center;
+}
+
+.modal-title {
+  flex: 1;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.modal-body {
+  background-color: #6d8299;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+/* Game Description Section */
+.game-description {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+}
+
+.game-description h5 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.game-description p {
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
+  margin-bottom: 0;
+}
+
+.modal-footer {
+  background-color: #316b83;
+  border: none;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+}
+
+.badge {
+  margin-right: 0.4rem;
+  font-size: 0.9rem;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.6rem;
+  }
+
+  .modal-title {
+    font-size: 1.4rem;
+  }
+
+  .game-grid {
+    gap: 1rem;
+    padding: 1rem;
+  }
+}

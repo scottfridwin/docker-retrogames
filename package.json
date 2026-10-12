@@ -1,0 +1,32 @@
+{
+  "name": "retrogames",
+  "version": "0.0.0-dev",
+  "private": true,
+  "description": "Web app for playing DOS games in the browser (js-dos) with per-user saved progress.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@fontsource/ubuntu": "^5.3.0",
+    "@fortawesome/fontawesome-free": "^7.3.1",
+    "bootstrap": "^5.3.8",
+    "express": "^5.3.0",
+    "jquery": "^3.7.1",
+    "js-dos": "7.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.10"
+  }
+}
